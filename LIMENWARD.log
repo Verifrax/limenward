@@ -1,0 +1,12 @@
+# LIMENWARD LOG
+# Append-only boundary ledger
+# Records transitions that were explicitly allowed
+# Deletion breaks continuity
+
+# Format:
+# ----------
+# TIME:   <UTC ISO-8601>
+# COMMIT: <hash | UNCOMMITTED>
+# INPUT:
+# <observed input>
+# ----------
