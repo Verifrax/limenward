@@ -7,6 +7,7 @@ set -eu
 
 # --- Preconditions ---------------------------------------------------------
 
+# Must be inside a git repository
 git rev-parse --is-inside-work-tree >/dev/null 2>&1 || {
   printf '%s\n' "LIMENWARD: not a git repository" >&2
   exit 2
@@ -16,6 +17,7 @@ git rev-parse --is-inside-work-tree >/dev/null 2>&1 || {
 
 INPUT="$(cat)"
 
+# Silence is a blocked transition
 [ -z "$INPUT" ] && {
   printf '%s\n' "DENIED"
   exit 1
@@ -32,14 +34,14 @@ printf '%s' "$TEXT" | grep -Eiq \
   exit 1
 }
 
-# Require explicit marker of finality or intent
+# Require explicit marker of intent or finality
 printf '%s' "$TEXT" | grep -Eq \
   '(^|[^a-z])(final|approved|ready|commit|publish|release|execute)([^a-z]|$)' || {
   printf '%s\n' "DENIED"
   exit 1
 }
 
-# --- Ledger ----------------------------------------------------------------
+# --- Ledger ---------------------------------------------------------------
 
 TIMESTAMP="$(date -u '+%Y-%m-%dT%H:%M:%SZ')"
 COMMIT="$(git rev-parse --verify HEAD 2>/dev/null || printf '%s' UNCOMMITTED)"
@@ -51,7 +53,7 @@ COMMIT="$(git rev-parse --verify HEAD 2>/dev/null || printf '%s' UNCOMMITTED)"
   printf '---\n'
 } >> LIMENWARD.log
 
-# --- Verdict ---------------------------------------------------------------
+# --- Verdict --------------------------------------------------------------
 
 printf '%s\n' "ALLOWED"
 exit 0
