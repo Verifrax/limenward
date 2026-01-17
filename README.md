@@ -163,3 +163,17 @@ LIMENWARD is a minimal, deterministic boundary guard for irreversible systems.
 
 If transitions do not matter, do not use it.
 If they do, nothing else is sufficient.
+
+---
+
+## Responsibility Boundary
+
+This software is provided under the MIT License.
+
+The MIT License permits use, copying, modification, and redistribution of the code, but it does not provide assurance, certification, audit defense, operational guarantees, or liability coverage.
+
+Use of this software in environments where failure, compliance, legal exposure, or irreversible decisions matter requires an accountable party.
+
+The original maintainer is available for assurance, adaptation, and responsibility when such accountability is required.
+
+Contact: contact@speedkit.eu
