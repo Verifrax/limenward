@@ -1,4 +1,15 @@
-# LIMENWARD
+```
+PRIM-005
+LIMENWARD
+Boundary enforcement
+
+STATUS: REGISTERED
+REGISTRY: https://speedkit.eu
+```
+
+Registered artifact. Identity governed by SPEEDKIT registry.
+
+---
 
 **LIMENWARD v0.0.0** is a boundary primitive.
 
