@@ -10,6 +10,8 @@ SNAPSHOT: https://speedkit.eu/REGISTRY_SNAPSHOT.json
 
 Registered artifact. Identity governed by SPEEDKIT registry.
 
+STATUS: FINAL
+
 ---
 
 **LIMENWARD v0.0.0** is a boundary primitive.
