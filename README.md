@@ -1,12 +1,18 @@
 ```
 PRIM-005
 LIMENWARD
-Boundary enforcement
+Boundary ward
 
 STATUS: REGISTERED
 REGISTRY: https://speedkit.eu
 SNAPSHOT: https://speedkit.eu/REGISTRY_SNAPSHOT.json
 ```
+
+Registered artifact. Identity governed by SPEEDKIT registry.
+
+STATUS: FINAL
+
+---
 
 Registered artifact. Identity governed by SPEEDKIT registry.
 
