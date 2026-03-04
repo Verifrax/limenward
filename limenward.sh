@@ -1,4 +1,15 @@
 #!/bin/sh
+set -euo pipefail
+
+# determinism hardening (CI)
+: ${VF_DETERMINISTIC:=1}
+export VF_DETERMINISTIC
+export LC_ALL=C
+export LANG=C
+export TZ=UTC
+umask 022
+export PYTHONHASHSEED=0
+export SOURCE_DATE_EPOCH=${SOURCE_DATE_EPOCH:-1709510400}
 # LIMENWARD v0.0.0
 # Boundary enforcement utility
 # Guards transitions. No execution. No mutation. No remediation.
