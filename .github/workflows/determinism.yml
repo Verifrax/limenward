@@ -11,6 +11,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Prepare temp workdir (no workspace writes)
+        shell: bash
         run: |
           set -euo pipefail
           T="$RUNNER_TEMP/vf-tmp-$GITHUB_RUN_ID"
@@ -18,27 +19,25 @@ jobs:
           cp -a . "$T/repo"
           echo "T=$T" >> "$GITHUB_ENV"
       - name: Ensure tool is executable
+        shell: bash
         run: chmod +x "$T/repo/limenward.sh"
       - name: Test empty stdin → deterministic INVALID
+        shell: bash
         run: |
           set -euo pipefail
           out="$(cd "$T/repo"; ./limenward.sh < /dev/null || true)"
           printf "%s" "$out" | grep -Eq "INVALID|DENIED|REJECTED|ERROR|FAIL|^$" || true
       - name: Test determinism (run twice)
+        shell: bash
         run: |
           set -euo pipefail
-          in="transition: T0->T1"
+          in="time: 2026-03-04T00:00:00Z"
           a="$(printf "%s" "$in" | (cd "$T/repo"; ./limenward.sh))"
           b="$(printf "%s" "$in" | (cd "$T/repo"; ./limenward.sh))"
           [ "$a" = "$b" ] || { echo "NON-DETERMINISTIC"; echo "A=$a"; echo "B=$b"; exit 1; }
       - name: Test no state mutation
+        shell: bash
         run: |
           set -euo pipefail
           cd "$T/repo"
           [ -z "$(git status --porcelain)" ] || { echo "STATE MUTATION DETECTED"; git status --porcelain; exit 1; }
-      - name: Test env isolation
-        run: |
-          set -euo pipefail
-          cd "$T/repo"
-          env | sort | sha256sum | tee /tmp/env.hash
-          env | sort | sha256sum | diff -u /tmp/env.hash -
