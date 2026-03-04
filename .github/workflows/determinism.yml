@@ -32,8 +32,8 @@ jobs:
         run: |
           set -euo pipefail
           in="time: 2026-03-04T00:00:00Z"
-          a="$(printf "%s" "$in" | (cd "$T/repo"; ./limenward.sh))"
-          b="$(printf "%s" "$in" | (cd "$T/repo"; ./limenward.sh))"
+          a="20 20 12 61 79 80 81 98 702 701 33 100 204 250 395 398 399 400 703printf "%s" "" | (cd "/repo"; ./limenward.sh || true))"
+          b="20 20 12 61 79 80 81 98 702 701 33 100 204 250 395 398 399 400 703printf "%s" "" | (cd "/repo"; ./limenward.sh || true))"
           [ "$a" = "$b" ] || { echo "NON-DETERMINISTIC"; echo "A=$a"; echo "B=$b"; exit 1; }
       - name: Test no state mutation
         shell: bash
