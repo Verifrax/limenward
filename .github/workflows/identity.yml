@@ -10,9 +10,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Verify README identity (```)
+      - name: Verify README identity (PRIM-006)
+        shell: bash
         run: |
           set -euo pipefail
-          line="$(head -n 1 README.md | tr -d r)"
-          echo "line1=$line"
-          [ "$line" = "```" ]
+          head -n 1 README.md | tr -d "\r" | grep -Fx "PRIM-006"
