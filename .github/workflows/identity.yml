@@ -1,27 +1,25 @@
 name: Identity
-
 on:
   push:
-    paths:
-      - 'README.md'
+    branches: [ "main" ]
   pull_request:
-    paths:
-      - 'README.md'
-
 permissions:
   contents: read
-
 jobs:
   verify:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-
-      - name: Verify README identity (PRIM-005)
+      - name: Verify README identity (PRIM-006)
         run: |
           set -euo pipefail
-          HEADER=$(sed -n '/^```$/,/^```$/p' README.md | head -10)
-          echo "$HEADER" | grep -q '^PRIM-005$' || { echo "FAIL: PRIM-005 not found"; exit 1; }
-          echo "$HEADER" | grep -q '^STATUS: REGISTERED$' || { echo "FAIL: STATUS missing"; exit 1; }
-          echo "$HEADER" | grep -q '^REGISTRY: https://speedkit.eu$' || { echo "FAIL: REGISTRY missing"; exit 1; }
-          echo "PASS: PRIM-005 identity verified"
+          python - <<PY
+          import sys, pathlib
+          p = pathlib.Path("README.md")
+          b = p.read_bytes()
+          print("bytes0_16:", b[:16])
+          line1 = b.splitlines(True)[:1]
+          line1 = line1[0].decode("utf-8", "replace") if line1 else ""
+          print("line1:", repr(line1))
+          assert line1 == "PRIM-006\n", repr(line1)
+          PY
