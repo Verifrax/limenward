@@ -27,7 +27,7 @@ jobs:
       - name: Test determinism (run twice)
         run: |
           set -euo pipefail
-          in="transition: test"
+          in="transition: T0->T1"
           a="$(printf "%s" "$in" | (cd "$T/repo"; ./limenward.sh))"
           b="$(printf "%s" "$in" | (cd "$T/repo"; ./limenward.sh))"
           [ "$a" = "$b" ] || { echo "NON-DETERMINISTIC"; echo "A=$a"; echo "B=$b"; exit 1; }

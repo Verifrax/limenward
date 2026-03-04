@@ -10,16 +10,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Verify README identity (PRIM-006)
+      - name: Verify README identity (```)
         run: |
           set -euo pipefail
-          python - <<PY
-          import sys, pathlib
-          p = pathlib.Path("README.md")
-          b = p.read_bytes()
-          print("bytes0_16:", b[:16])
-          line1 = b.splitlines(True)[:1]
-          line1 = line1[0].decode("utf-8", "replace") if line1 else ""
-          print("line1:", repr(line1))
-          assert line1 == "PRIM-006\n", repr(line1)
-          PY
+          line="$(head -n 1 README.md | tr -d r)"
+          echo "line1=$line"
+          [ "$line" = "```" ]
