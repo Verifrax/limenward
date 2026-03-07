@@ -1,0 +1,26 @@
+{
+  "name": "@verifrax/limenward",
+  "version": "0.1.0",
+  "description": "Verifrax primitive — boundary enforcement primitive for deterministic irreversible systems.",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Verifrax/limenward.git"
+  },
+  "homepage": "https://github.com/Verifrax/limenward#readme",
+  "bugs": {
+    "url": "https://github.com/Verifrax/limenward/issues"
+  },
+  "bin": {
+    "limenward": "limenward.sh"
+  },
+  "files": [
+    "limenward.sh",
+    "README.md",
+    "LICENSE",
+    "VERSION"
+  ],
+  "publishConfig": {
+    "access": "public"
+  }
+}

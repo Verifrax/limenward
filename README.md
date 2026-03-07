@@ -1,195 +1,148 @@
-PRIM-006
-PRIM-005
-LIMENWARD
-Boundary enforcement
+# LIMENWARD
 
-STATUS: REGISTERED
-REGISTRY: https://speedkit.eu
-SNAPSHOT: https://speedkit.eu/REGISTRY_SNAPSHOT.json
-```
+Primitive ID: PRIM-004  
+Package: @verifrax/limenward  
+Binary: limenward
 
-Registered artifact. Identity governed by SPEEDKIT registry.
-
-STATUS: FINAL
+Verifrax primitive — boundary enforcement primitive for deterministic irreversible systems.
 
 ---
 
-**LIMENWARD v0.0.0** is a boundary primitive.
+## Status
 
-It does not decide.
-It does not verify.
-It does not witness.
-It does not execute.
+Current release status: pre-stable primitive release line.
 
-It enforces **transition discipline**.
+Canonical release target:
 
-LIMENWARD exists only at the threshold between states.
+package version: 0.1.0  
+tag: v0.1.0
 
----
-
-## Philosophy
-
-Most failures occur *between* steps, not within them.
-
-LIMENWARD exists to make transitions explicit, deliberate, and auditable.
-It does not evaluate content.
-It evaluates **whether passage is permitted**.
-
-If a boundary matters, it must be guarded.
+LIMENWARD is part of the Verifrax primitive layer and follows the canonical primitive governance, naming, version, and packaging rules.
 
 ---
 
-## What LIMENWARD Guards
+## Purpose
 
-LIMENWARD is invoked when something attempts to cross a boundary, including but not limited to:
+LIMENWARD enforces deterministic boundaries after origin, custody, and time have already been fixed.
 
-* draft → final
-* private → public
-* uncommitted → committed
-* unverifiable → verifiable
-* observation → action
+Once an artifact has a stable origin, preserved custody, and explicit time boundary, the system still needs a deterministic threshold between what is inside the valid operating boundary and what is outside it. LIMENWARD exists to make that boundary explicit, enforceable, and non-ambiguous.
 
-It answers one question only:
-
-> **Is this allowed to cross, right now?**
+It does not establish origin. It does not preserve custody. It does not fix temporal order. It does not verify correctness. It does not witness, judge, or terminate. Its role is narrower: enforce boundary conditions for downstream interpretation and action.
 
 ---
 
-## What It Enforces
+## What This Primitive Does
 
-LIMENWARD enforces *preconditions*, not outcomes.
-
-Specifically:
-
-* No ambiguity exists at the moment of transition
-* Explicit intent or finality is present
-* Forbidden states are blocked at the boundary
-
-LIMENWARD does not judge correctness.
-It judges **right to proceed**.
+- enforces a deterministic boundary surface around an artifact or state
+- distinguishes in-boundary from out-of-boundary conditions
+- emits boundary-governed output suitable for downstream primitives
 
 ---
 
-## What It Is Not
+## What This Primitive Does Not Do
 
-* Not a judge
-* Not a verifier
-* Not a witness
-* Not an executor
-* Not a safety mechanism
-
-Anything that changes state is out of scope.
-
----
-
-## Behavior
-
-* Consumes context via `stdin`
-* Refuses silent invocation
-* Evaluates boundary conditions deterministically
-* Emits exactly one verdict
-* Appends allowed transitions to a ledger
-* Exits immediately after evaluation
-
-No retries.
-No flags.
-No configuration.
+- does not establish first origin
+- does not preserve custody continuity
+- does not fix temporal ordering
+- does not verify correctness
+- does not witness or attest
+- does not judge validity
+- does not terminate lifecycle
 
 ---
 
-## Verdicts
+## Behavioral Contract
 
-LIMENWARD emits exactly one of the following:
+Invocation model:
 
-* `ALLOWED` — the transition may proceed
-* `DENIED` — the transition is blocked
+executable: limenward  
+package: @verifrax/limenward  
+runtime: CLI-first
 
-The verdict concerns **permission**, not quality.
+The primitive operates on an artifact whose origin, custody, and time surfaces are already fixed.
+
+If the boundary conditions are absent, ambiguous, or non-deterministic, LIMENWARD must not fabricate a stable in-boundary result.
+
+Exit codes:
+
+0 — boundary enforcement completed successfully  
+non-zero — invocation failed or contract violated
 
 ---
 
 ## Usage
 
-LIMENWARD is never run alone.
-It must guard a transition.
+Install:
 
-```sh
-<transition-context> | ./limenward.sh
-```
+npm install -g @verifrax/limenward
 
-### Example
+Execute:
 
-```sh
-echo "ready for release" | ./limenward.sh
-```
+limenward artifact.json
 
-If all boundary conditions are satisfied:
+stdin example:
 
-```text
-ALLOWED
-```
-
-If a boundary condition is violated:
-
-```text
-DENIED
-```
+cat artifact.json | limenward
 
 ---
 
-## Contract
+## Determinism Guarantees
 
-Once a verdict is emitted:
+For identical canonical input, LIMENWARD must produce identical boundary-enforcement output.
 
-* The decision stands
-* Responsibility transfers to the caller
-* Circumvention is explicit, not accidental
+No hidden environmental state may influence the result.
 
-LIMENWARD guarantees **clarity at the boundary**.
+LIMENWARD assumes an already-bounded origin, custody, and time surface and does not substitute for those earlier primitives or for downstream verification and judgment.
 
 ---
 
-## Relationship to Other Artifacts
+## Security Model
 
-* **GUILLOTINE** — destroys state
-* **IRREVOCULL** — judges output
-* **ATTESTORIUM** — witnesses reality
-* **VALIDEXOR** — verifies claims
-* **LIMENWARD** — guards transitions
+LIMENWARD protects against ambiguity in operational or semantic boundary enforcement.
 
-Each artifact is orthogonal.
-None can replace another.
+Its security value is to prevent silent drift between allowed and disallowed states once prior primitive conditions are fixed. It does not guarantee correctness, attestation, or irreversible judgment.
 
 ---
 
-## Warning
+## Relationship to Other Primitives
 
-Boundaries create accountability.
+Canonical primitive order:
 
-If you do not want to be responsible for crossing one,
-do not invoke LIMENWARD.
+1 originseal  
+2 archicustos  
+3 kairoclasp  
+4 limenward  
+5 validexor  
+6 attestorium  
+7 irrevocull  
+8 guillotine
+
+Repositories:
+
+https://github.com/Verifrax/originseal  
+https://github.com/Verifrax/archicustos  
+https://github.com/Verifrax/kairoclasp  
+https://github.com/Verifrax/limenward  
+https://github.com/Verifrax/validexor  
+https://github.com/Verifrax/attestorium  
+https://github.com/Verifrax/irrevocull  
+https://github.com/Verifrax/guillotine
 
 ---
 
-## About
+## Installation
 
-LIMENWARD is a minimal, deterministic boundary guard for irreversible systems.
+npm install -g @verifrax/limenward
 
-If transitions do not matter, do not use it.
-If they do, nothing else is sufficient.
+command -v limenward
+
+Repository:
+- GitHub: https://github.com/Verifrax/limenward
+- Package: @verifrax/limenward
+- Binary: limenward
 
 ---
 
-## Responsibility Boundary
+## License
 
-This software is provided under the MIT License.
-
-The MIT License permits use, copying, modification, and redistribution of the code, but it does not provide assurance, certification, audit defense, operational guarantees, or liability coverage.
-
-Use of this software in environments where failure, compliance, legal exposure, or irreversible decisions matter requires an accountable party.
-
-The original maintainer is available for assurance, adaptation, and responsibility when such accountability is required.
-
-Contact: contact@speedkit.eu
-
-Authoritative signed records are issued separately and are not produced by the software.
+MIT
