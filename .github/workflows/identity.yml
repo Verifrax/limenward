@@ -1,17 +1,25 @@
 name: Identity
+
 on:
   push:
     branches: [ "main" ]
   pull_request:
+
 permissions:
   contents: read
+
 jobs:
   verify:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Verify README identity (PRIM-006)
+
+      - name: Verify README identity (PRIM-004)
         shell: bash
         run: |
           set -euo pipefail
-          head -n 1 README.md | tr -d "\r" | grep -Fx "PRIM-006"
+          grep -q "^# LIMENWARD$" README.md || { echo "FAIL: title missing"; exit 1; }
+          grep -q "^Primitive ID: PRIM-004" README.md || { echo "FAIL: PRIM-004 not found"; exit 1; }
+          grep -q "^Package: @verifrax/limenward" README.md || { echo "FAIL: package line missing"; exit 1; }
+          grep -q "^Binary: limenward" README.md || { echo "FAIL: binary line missing"; exit 1; }
+          echo "PASS: PRIM-004 identity verified"
