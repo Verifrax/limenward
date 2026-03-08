@@ -10,7 +10,7 @@ export TZ=UTC
 umask 022
 export PYTHONHASHSEED=0
 export SOURCE_DATE_EPOCH=${SOURCE_DATE_EPOCH:-1709510400}
-# LIMENWARD v0.0.0
+# LIMENWARD v0.1.0
 # Boundary enforcement utility
 # Guards transitions. No execution. No mutation. No remediation.
 
@@ -61,7 +61,7 @@ COMMIT="$(git rev-parse --verify HEAD 2>/dev/null || printf '%s' UNCOMMITTED)"
   printf 'TIME: %s\n' "$TIMESTAMP"
   printf 'COMMIT: %s\n' "$COMMIT"
   printf 'INPUT:\n%s\n' "$TEXT"
-  printf '---\n'
+  printf '%s\n' '---'
 } >> LIMENWARD.log
 
 # --- Verdict --------------------------------------------------------------
