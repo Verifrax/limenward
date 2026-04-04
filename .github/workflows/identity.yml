@@ -1,25 +1,53 @@
 name: Identity
 
 on:
-  push:
-    branches: [ "main" ]
   pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+env:
+  LC_ALL: C
+  TZ: UTC
 
 permissions:
   contents: read
 
 jobs:
-  verify:
+  identity:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
 
-      - name: Verify README identity (PRIM-004)
+      - name: Verify primitive identity boundary
         shell: bash
         run: |
           set -euo pipefail
-          grep -q "^# LIMENWARD$" README.md || { echo "FAIL: title missing"; exit 1; }
-          grep -q "^Primitive ID: PRIM-004" README.md || { echo "FAIL: PRIM-004 not found"; exit 1; }
-          grep -q "^Package: @verifrax/limenward" README.md || { echo "FAIL: package line missing"; exit 1; }
-          grep -q "^Binary: limenward" README.md || { echo "FAIL: binary line missing"; exit 1; }
-          echo "PASS: PRIM-004 identity verified"
+
+          test -f README.md
+          test -f LICENSE
+          test -f VERSION
+          test -f package.json
+          test -f limenward.sh
+
+          grep -F "# LIMENWARD" README.md
+          grep -F "Primitive ID: PRIM-004" README.md
+          grep -F "Package: @verifrax/limenward" README.md
+          grep -F "Binary: limenward" README.md
+
+          python3 - <<'PY2'
+import json
+from pathlib import Path
+
+data = json.loads(Path("package.json").read_text())
+
+assert data["name"] == "@verifrax/limenward", data
+assert data["version"] == "0.1.0", data
+assert data["license"] == "MIT", data
+assert data["bin"]["limenward"] == "limenward.sh", data
+assert data["repository"]["url"].endswith("Verifrax/limenward.git"), data
+assert data["homepage"] == "https://github.com/Verifrax/limenward#readme", data
+assert data["bugs"]["url"] == "https://github.com/Verifrax/limenward/issues", data
+assert data["publishConfig"]["access"] == "public", data
+PY2
