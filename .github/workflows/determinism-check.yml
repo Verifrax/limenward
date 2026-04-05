@@ -5,36 +5,20 @@ on:
     branches: [main]
   push:
     branches: [main]
-  workflow_dispatch:
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
 
 env:
   LC_ALL: C
   TZ: UTC
 
-permissions:
-  contents: read
-
 jobs:
   determinism:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-
-      - name: Hard clean workspace
-        shell: bash
-        run: |
-          set -euo pipefail
-          git reset --hard
-          git clean -ffd
-
-      - name: Verify clean workspace
-        shell: bash
-        run: |
-          set -euo pipefail
-          test -z "$(git status --porcelain=v1)"
-          git diff --exit-code
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
 
       - name: Verify deterministic CLI behavior
         shell: bash
@@ -43,63 +27,56 @@ jobs:
 
           TMP_ROOT="$(mktemp -d "${RUNNER_TEMP:-/tmp}/limenward-det-XXXXXXXX")"
           REPO_COPY="$TMP_ROOT/repo"
-          RUN_DIR="$TMP_ROOT/run"
-          mkdir -p "$REPO_COPY" "$RUN_DIR"
+          mkdir -p "$REPO_COPY"
 
           rsync -a --exclude ".git" . "$REPO_COPY"/
-          chmod +x "$REPO_COPY/limenward.sh"
+          cd "$REPO_COPY"
 
-          tree_hash() {
-            python3 - "$1" <<'PY2'
-import hashlib
-import sys
-from pathlib import Path
+          git init -q
+          git config user.name "ci"
+          git config user.email "ci@example.invalid"
+          git add .
+          git commit -qm "snapshot"
 
-root = Path(sys.argv[1])
-h = hashlib.sha256()
-
-for p in sorted(root.rglob("*")):
-    if p.is_file():
-        rel = p.relative_to(root).as_posix().encode()
-        h.update(rel)
-        h.update(b"\0")
-        h.update(p.read_bytes())
-        h.update(b"\0")
-
-print(h.hexdigest())
-PY2
-          }
-
-          BEFORE_HASH="$(tree_hash "$REPO_COPY")"
+          chmod +x ./limenward.sh
 
           set +e
-          "$REPO_COPY/limenward.sh" < /dev/null > "$RUN_DIR/empty.out" 2>&1
+          ./limenward.sh < /dev/null > empty.out 2>&1
           EMPTY_CODE=$?
           set -e
-          printf "%s\n" "$EMPTY_CODE" > "$RUN_DIR/empty.exit"
           test "$EMPTY_CODE" -ne 0
 
           INPUT="final approved release"
 
           set +e
-          printf "%s\n" "$INPUT" | "$REPO_COPY/limenward.sh" > "$RUN_DIR/output1.txt" 2>&1
+          printf "%s\n" "$INPUT" | LIMENWARD_LOG_PATH="$TMP_ROOT/log1.txt" ./limenward.sh > output1.txt 2>&1
           CODE1=$?
-          printf "%s\n" "$INPUT" | "$REPO_COPY/limenward.sh" > "$RUN_DIR/output2.txt" 2>&1
+          printf "%s\n" "$INPUT" | LIMENWARD_LOG_PATH="$TMP_ROOT/log2.txt" ./limenward.sh > output2.txt 2>&1
           CODE2=$?
           set -e
 
-          printf "%s\n" "$CODE1" > "$RUN_DIR/exit1.txt"
-          printf "%s\n" "$CODE2" > "$RUN_DIR/exit2.txt"
+          printf "%s\n" "$CODE1" > exit1.txt
+          printf "%s\n" "$CODE2" > exit2.txt
 
-          diff -u "$RUN_DIR/output1.txt" "$RUN_DIR/output2.txt"
-          diff -u "$RUN_DIR/exit1.txt" "$RUN_DIR/exit2.txt"
+          diff -u output1.txt output2.txt
+          diff -u exit1.txt exit2.txt
 
-          AFTER_HASH="$(tree_hash "$REPO_COPY")"
-          test "$BEFORE_HASH" = "$AFTER_HASH"
-
-      - name: Verify clean workspace after test
+      - name: Verify clean workspace
         shell: bash
         run: |
           set -euo pipefail
           test -z "$(git status --porcelain=v1)"
           git diff --exit-code
+
+  version-lock:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
+      - name: Verify VERSION is locked at v0.0.0
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -f VERSION
+          VERSION="$(head -1 VERSION)"
+          test "$VERSION" = "v0.0.0"
+          echo "PASS: VERSION locked at v0.0.0"

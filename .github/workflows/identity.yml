@@ -5,20 +5,20 @@ on:
     branches: [main]
   push:
     branches: [main]
-  workflow_dispatch:
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
 
 env:
   LC_ALL: C
   TZ: UTC
 
-permissions:
-  contents: read
-
 jobs:
   identity:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
 
       - name: Verify primitive identity boundary
         shell: bash
@@ -31,7 +31,7 @@ jobs:
           test -f package.json
           test -f limenward.sh
 
-          grep -F "# LIMENWARD" README.md
+          grep -Fx "# LIMENWARD" README.md
           grep -F "Primitive ID: PRIM-004" README.md
           grep -F "Package: @verifrax/limenward" README.md
           grep -F "Binary: limenward" README.md
