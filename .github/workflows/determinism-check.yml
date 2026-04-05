@@ -1,0 +1,82 @@
+name: Determinism Check
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+
+env:
+  LC_ALL: C
+  TZ: UTC
+
+jobs:
+  determinism:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
+
+      - name: Verify deterministic CLI behavior
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          TMP_ROOT="$(mktemp -d "${RUNNER_TEMP:-/tmp}/limenward-det-XXXXXXXX")"
+          REPO_COPY="$TMP_ROOT/repo"
+          mkdir -p "$REPO_COPY"
+
+          rsync -a --exclude ".git" . "$REPO_COPY"/
+          cd "$REPO_COPY"
+
+          git init -q
+          git config user.name "ci"
+          git config user.email "ci@example.invalid"
+          git add .
+          git commit -qm "snapshot"
+
+          chmod +x ./limenward.sh
+
+          set +e
+          ./limenward.sh < /dev/null > empty.out 2>&1
+          EMPTY_CODE=$?
+          set -e
+          test "$EMPTY_CODE" -ne 0
+
+          INPUT="final approved release"
+
+          set +e
+          printf "%s\n" "$INPUT" | LIMENWARD_LOG_PATH="$TMP_ROOT/log1.txt" ./limenward.sh > output1.txt 2>&1
+          CODE1=$?
+          printf "%s\n" "$INPUT" | LIMENWARD_LOG_PATH="$TMP_ROOT/log2.txt" ./limenward.sh > output2.txt 2>&1
+          CODE2=$?
+          set -e
+
+          printf "%s\n" "$CODE1" > exit1.txt
+          printf "%s\n" "$CODE2" > exit2.txt
+
+          diff -u output1.txt output2.txt
+          diff -u exit1.txt exit2.txt
+
+      - name: Verify clean workspace
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -z "$(git status --porcelain=v1)"
+          git diff --exit-code
+
+  version-lock:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
+      - name: Verify VERSION is locked at v0.0.0
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -f VERSION
+          VERSION="$(head -1 VERSION)"
+          test "$VERSION" = "v0.0.0"
+          echo "PASS: VERSION locked at v0.0.0"
