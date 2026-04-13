@@ -36,4 +36,4 @@ jobs:
           grep -q "^Package: @verifrax/limenward" README.md
           grep -q "^Binary: limenward" README.md
 
-          python3 -c 'import json, pathlib; d=json.loads(pathlib.Path("package.json").read_text()); assert d["name"]=="@verifrax/limenward"; assert d["version"]=="0.1.0"; assert d["license"]=="MIT"; assert d["bin"]["limenward"]=="limenward.sh"; assert d["repository"]["url"].endswith("Verifrax/limenward.git"); assert d["homepage"]=="https://github.com/Verifrax/limenward#readme"; assert d["bugs"]["url"]=="https://github.com/Verifrax/limenward/issues"; assert d["publishConfig"]["access"]=="public"'
+          python3 -c 'import json, pathlib; d=json.loads(pathlib.Path("package.json").read_text()); assert d["name"]=="@verifrax/limenward"; assert d["version"]=="0.1.0"; assert d["license"]== "Apache-2.0"; assert d["bin"]["limenward"]=="limenward.sh"; assert d["repository"]["url"].endswith("Verifrax/limenward.git"); assert d["homepage"]=="https://github.com/Verifrax/limenward#readme"; assert d["bugs"]["url"]=="https://github.com/Verifrax/limenward/issues"; assert d["publishConfig"]["access"]=="public"'
