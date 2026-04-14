@@ -1,5 +1,9 @@
 # LIMENWARD
 
+Package: @verifrax/limenward
+Binary: limenward
+Repository: Verifrax/limenward
+
 Primitive ID: PRIM-004
 Package: @verifrax/limenward
 Binary: limenward
