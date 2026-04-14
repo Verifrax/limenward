@@ -1,12 +1,10 @@
 # LIMENWARD
 
-Primitive ID: PRIM-004  
-Package: @verifrax/limenward  
+Primitive ID: PRIM-004
+Package: @verifrax/limenward
 Binary: limenward
 
-Verifrax primitive — boundary enforcement primitive for deterministic irreversible systems.
-
----
+LIMENWARD is the Verifrax threshold-guard primitive: the bounded primitive surface for threshold guarding and ingress-boundary handling without becoming authored protocol source, authority issuance, governed execution, public verification, proof publication, archive/reference, or intake.
 
 ## Proof artifacts
 
@@ -30,146 +28,114 @@ This repository is part of the VERIFRAX proof perimeter.
 
 ## Status
 
-Current release status: pre-stable primitive release line.
+* Surface class: threshold-guard primitive
+* Repository class: primitive package surface
+* Public host ownership: none
+* Package: `@verifrax/limenward`
+* Binary: `limenward`
+* Current repository posture: live primitive boundary
+* License: Apache License Version 2.0
 
-Canonical release target:
+## Boundary
 
-package version: 0.1.0  
-tag: v0.1.0
+This repository owns the threshold-guard primitive only.
 
-LIMENWARD is part of the Verifrax primitive layer and follows the canonical primitive governance, naming, version, and packaging rules.
+It defines bounded threshold-guard behavior as a primitive.
+It does not author normative source material.
+It does not issue authority.
+It does not execute governed actions.
+It does not verify published material.
+It does not publish proof.
+It does not serve as archive/reference.
+It does not operate intake.
+It does not replace adjacent sovereign boundaries.
 
----
+## What it does
 
-## Purpose
+- defines the threshold-guard primitive for bounded Verifrax use
+- keeps primitive behavior inspectable and deterministic
+- supports adjacent repositories without claiming system-wide authority
+- anchors threshold-guard meaning as a primitive boundary
 
-LIMENWARD enforces deterministic boundaries after origin, custody, and time have already been fixed.
+## What it does not do
 
-Once an artifact has a stable origin, preserved custody, and explicit time boundary, the system still needs a deterministic threshold between what is inside the valid operating boundary and what is outside it. LIMENWARD exists to make that boundary explicit, enforceable, and non-ambiguous.
-
-It does not establish origin. It does not preserve custody. It does not fix temporal order. It does not verify correctness. It does not witness, judge, or terminate. Its role is narrower: enforce boundary conditions for downstream interpretation and action.
-
----
-
-## What This Primitive Does
-
-- enforces a deterministic boundary surface around an artifact or state
-- distinguishes in-boundary from out-of-boundary conditions
-- emits boundary-governed output suitable for downstream primitives
-
----
-
-## What This Primitive Does Not Do
-
-- does not establish first origin
-- does not preserve custody continuity
-- does not fix temporal ordering
-- does not verify correctness
-- does not witness or attest
-- does not judge validity
-- does not terminate lifecycle
-
----
-
-## Behavioral Contract
-
-Invocation model:
-
-executable: limenward  
-package: @verifrax/limenward  
-runtime: CLI-first
-
-The primitive operates on an artifact whose origin, custody, and time surfaces are already fixed.
-
-If the boundary conditions are absent, ambiguous, or non-deterministic, LIMENWARD must not fabricate a stable in-boundary result.
-
-Exit codes:
-
-0 — boundary enforcement completed successfully  
-non-zero — invocation failed or contract violated
-
----
-
-## Usage
-
-Install:
-
-npm install -g @verifrax/limenward
-
-Execute:
-
-limenward artifact.json
-
-stdin example:
-
-cat artifact.json | limenward
-
----
-
-## Determinism Guarantees
-
-For identical canonical input, LIMENWARD must produce identical boundary-enforcement output.
-
-No hidden environmental state may influence the result.
-
-LIMENWARD assumes an already-bounded origin, custody, and time surface and does not substitute for those earlier primitives or for downstream verification and judgment.
-
----
-
-## Security Model
-
-LIMENWARD protects against ambiguity in operational or semantic boundary enforcement.
-
-Its security value is to prevent silent drift between allowed and disallowed states once prior primitive conditions are fixed. It does not guarantee correctness, attestation, or irreversible judgment.
-
----
-
-## Relationship to Other Primitives
-
-Canonical primitive order:
-
-1 originseal  
-2 archicustos  
-3 kairoclasp  
-4 limenward  
-5 validexor  
-6 attestorium  
-7 irrevocull  
-8 guillotine
-
-Repositories:
-
-https://github.com/Verifrax/originseal  
-https://github.com/Verifrax/archicustos  
-https://github.com/Verifrax/kairoclasp  
-https://github.com/Verifrax/limenward  
-https://github.com/Verifrax/validexor  
-https://github.com/Verifrax/attestorium  
-https://github.com/Verifrax/irrevocull  
-https://github.com/Verifrax/guillotine
-
----
-
-## Installation
-
-npm install -g @verifrax/limenward
-
-command -v limenward
-
-Repository:
-- GitHub: https://github.com/Verifrax/limenward
-- Package: @verifrax/limenward
-- Binary: limenward
-
----
-
-## License
-
-MIT
+- not authored protocol source; that belongs to VERIFRAX
+- not authority issuance; that belongs to AUCTORISEAL
+- not governed execution; that belongs to CORPIFORM
+- not public verification; that belongs to VERIFRAX-verify
+- not proof publication; that belongs to proof
+- not archive/reference; that belongs to SIGILLARIUM
+- not intake; that belongs to apply
+- not constitutional doctrine; that belongs to SYNTAGMARIUM
+- not canonical world-state; that belongs to ORBISTIUM
+- not reconciliation or repair; that belongs to CONSONORIUM
+- not sovereign cognition; that belongs to TACHYRIUM
 
 ## Adjacent sovereign surfaces
 
-This repository is part of the Verifrax sovereign stack and remains bounded relative to:
+- `VERIFRAX` — authored protocol and evidence-root boundary
+- `AUCTORISEAL` — authority issuance
+- `CORPIFORM` — governed execution
+- `VERIFRAX-verify` — public verification
+- `proof` — proof publication
+- `SIGILLARIUM` — archive/reference
+- `apply` — intake
 
-- **[ANAGNORIUM](https://github.com/Verifrax/ANAGNORIUM)** for terminal recognition
-- **[REGRESSORIUM](https://github.com/Verifrax/REGRESSORIUM)** for terminal recourse
+LIMENWARD is a primitive.
+It does not become the repositories that consume it.
+
+## Public surface
+
+The public surface of this repository is its repository identity, README boundary, package surface, binary surface, and primitive materials carried by this repository.
+
+Publication here is not authored source.
+Publication here is not authority.
+Publication here is not execution.
+Publication here is not verification.
+Publication here is not proof publication.
+Publication here is not archive/reference.
+Publication here is not intake.
+
+## Package / host / repo truth
+
+Repository truth for LIMENWARD lives in this repository.
+
+Package truth for this primitive is `@verifrax/limenward`.
+Binary truth for this primitive is `limenward`.
+Package, binary, and repository truth are related but not interchangeable.
+
+## Threshold guarding meaning in-system
+
+Threshold guarding in-system means the stack can point to LIMENWARD and say that a bounded threshold-guard primitive belongs to this boundary.
+
+Threshold guarding here guards ingress.
+Threshold guarding here does not author.
+Threshold guarding here does not issue authority.
+Threshold guarding here does not execute.
+Threshold guarding here does not verify.
+Threshold guarding here does not publish proof.
+
+That does not by itself mean:
+
+- the primitive became authored protocol source
+- the primitive issued authority
+- the primitive executed a governed action
+- the primitive verified truth
+- the primitive published proof
+- the primitive replaced archive/reference
+- the primitive replaced intake
+- the primitive replaced the evidence-root repository
+
+## Not this
+
+LIMENWARD is not authored protocol source.
+LIMENWARD is not authority issuance.
+LIMENWARD is not governed execution.
+LIMENWARD is not public verification.
+LIMENWARD is not proof publication.
+LIMENWARD is not archive/reference.
+LIMENWARD is not intake.
+
+## License
+
+Apache License Version 2.0
